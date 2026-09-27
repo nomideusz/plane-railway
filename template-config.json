@@ -1,0 +1,248 @@
+{
+  "services": {
+    "41290402-f044-4abb-b6f4-abf97ee959dd": {
+      "icon": "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/plane.svg",
+      "name": "Plane",
+      "build": {},
+      "deploy": {
+        "startCommand": null,
+        "healthcheckPath": "/api/instances/",
+        "restartPolicyType": "ON_FAILURE",
+        "restartPolicyMaxRetries": 10
+      },
+      "source": {
+        "repo": "https://github.com/nomideusz/plane-railway",
+        "rootDirectory": "/plane"
+      },
+      "networking": {
+        "serviceDomains": {
+          "<hasDomain>": {}
+        }
+      },
+      "variables": {
+        "PORT": {
+          "defaultValue": "80",
+          "description": "Port Plane's built-in proxy listens on - leave as is",
+          "isOptional": false
+        },
+        "PLANE_ADMIN_EMAIL": {
+          "defaultValue": "",
+          "description": "Your email - the admin login for Plane and its /god-mode settings, created on first boot",
+          "isOptional": false
+        },
+        "PLANE_ADMIN_PASSWORD": {
+          "defaultValue": "${{secret(20, \"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789\")}}",
+          "description": "Admin password, set on first boot only - copy it from here to log in, then change it in Plane",
+          "isOptional": false
+        },
+        "PLANE_ORGANIZATION": {
+          "defaultValue": "My Company",
+          "description": "Instance name shown in /god-mode",
+          "isOptional": false
+        },
+        "DOMAIN_NAME": {
+          "defaultValue": "${{RAILWAY_PUBLIC_DOMAIN}}",
+          "description": "Domain Plane is served on - set it to your custom domain after adding one",
+          "isOptional": false
+        },
+        "APP_PROTOCOL": {
+          "defaultValue": "https",
+          "description": "Railway serves the domain over HTTPS",
+          "isOptional": false
+        },
+        "ENABLE_SIGNUP": {
+          "defaultValue": "0",
+          "description": "First boot only: 0 lets only people you invite sign up, 1 lets anyone. Later, change it in /god-mode",
+          "isOptional": false
+        },
+        "FILE_SIZE_LIMIT": {
+          "defaultValue": "52428800",
+          "description": "Largest attachment in bytes (50 MB)",
+          "isOptional": false
+        },
+        "CELERY_WORKER_CONCURRENCY": {
+          "defaultValue": "2",
+          "description": "Background worker processes, ~150 MB each. Upstream's default of one per CPU means dozens on Railway",
+          "isOptional": false
+        },
+        "SECRET_KEY": {
+          "defaultValue": "${{secret(50, \"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789\")}}",
+          "description": "Signs sessions - changing it logs everyone out",
+          "isOptional": false
+        },
+        "LIVE_SERVER_SECRET_KEY": {
+          "defaultValue": "${{secret(50, \"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789\")}}",
+          "description": "Shared secret between the API and the real-time editor server",
+          "isOptional": false
+        },
+        "DATABASE_URL": {
+          "defaultValue": "postgresql://${{Postgres.POSTGRES_USER}}:${{Postgres.POSTGRES_PASSWORD}}@${{Postgres.RAILWAY_PRIVATE_DOMAIN}}:5432/${{Postgres.POSTGRES_DB}}",
+          "description": "Postgres on the private network",
+          "isOptional": false
+        },
+        "REDIS_URL": {
+          "defaultValue": "redis://default:${{Redis.REDIS_PASSWORD}}@${{Redis.RAILWAY_PRIVATE_DOMAIN}}:6379",
+          "description": "Redis cache on the private network",
+          "isOptional": false
+        },
+        "AMQP_URL": {
+          "defaultValue": "amqp://${{RabbitMQ.RABBITMQ_DEFAULT_USER}}:${{RabbitMQ.RABBITMQ_DEFAULT_PASS}}@${{RabbitMQ.RAILWAY_PRIVATE_DOMAIN}}:5672/${{RabbitMQ.RABBITMQ_DEFAULT_VHOST}}",
+          "description": "RabbitMQ task queue on the private network",
+          "isOptional": false
+        },
+        "AWS_S3_BUCKET_NAME": {
+          "defaultValue": "${{Uploads.BUCKET}}",
+          "description": "Railway bucket for attachments, images and exports",
+          "isOptional": false
+        },
+        "AWS_S3_ENDPOINT_URL": {
+          "defaultValue": "${{Uploads.ENDPOINT}}",
+          "description": "Railway bucket endpoint",
+          "isOptional": false
+        },
+        "AWS_REGION": {
+          "defaultValue": "${{Uploads.REGION}}",
+          "description": "Railway bucket region",
+          "isOptional": false
+        },
+        "AWS_ACCESS_KEY_ID": {
+          "defaultValue": "${{Uploads.ACCESS_KEY_ID}}",
+          "description": "Railway bucket access key",
+          "isOptional": false
+        },
+        "AWS_SECRET_ACCESS_KEY": {
+          "defaultValue": "${{Uploads.SECRET_ACCESS_KEY}}",
+          "description": "Railway bucket secret key",
+          "isOptional": false
+        },
+        "TRUSTED_PROXIES": {
+          "defaultValue": "0.0.0.0/0 ::/0",
+          "description": "Trust Railway's edge for the client IP and HTTPS headers",
+          "isOptional": false
+        },
+        "RAILWAY_HEALTHCHECK_TIMEOUT_SEC": {
+          "defaultValue": "600",
+          "description": "First boot runs the database migrations before the health check can pass",
+          "isOptional": false
+        },
+        "RAILWAY_DEPLOYMENT_DRAINING_SECONDS": {
+          "defaultValue": "30",
+          "description": "Time to finish running jobs on redeploy",
+          "isOptional": false
+        }
+      }
+    },
+    "06545616-e916-465b-9a00-de74dc154d40": {
+      "icon": "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/rabbitmq.svg",
+      "name": "RabbitMQ",
+      "build": {},
+      "deploy": {
+        "startCommand": null,
+        "healthcheckPath": null,
+        "restartPolicyType": "ON_FAILURE",
+        "restartPolicyMaxRetries": 10
+      },
+      "source": {
+        "image": "rabbitmq:4.1.8-alpine"
+      },
+      "networking": {
+        "serviceDomains": {}
+      },
+      "variables": {
+        "RABBITMQ_DEFAULT_USER": {
+          "defaultValue": "plane",
+          "description": "RabbitMQ user",
+          "isOptional": false
+        },
+        "RABBITMQ_DEFAULT_PASS": {
+          "defaultValue": "${{secret(32, \"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789\")}}",
+          "description": "Auto-generated RabbitMQ password",
+          "isOptional": false
+        },
+        "RABBITMQ_DEFAULT_VHOST": {
+          "defaultValue": "plane",
+          "description": "RabbitMQ virtual host",
+          "isOptional": false
+        }
+      }
+    },
+    "8cc2aa04-b79e-496a-bb2a-c60446d42f58": {
+      "icon": "https://devicons.railway.app/i/postgresql.svg",
+      "name": "Postgres",
+      "build": {},
+      "deploy": {
+        "startCommand": null,
+        "healthcheckPath": null,
+        "restartPolicyType": "ON_FAILURE",
+        "restartPolicyMaxRetries": 10
+      },
+      "source": {
+        "image": "ghcr.io/railwayapp-templates/postgres-ssl:17"
+      },
+      "networking": {
+        "serviceDomains": {}
+      },
+      "volumeMounts": {
+        "8cc2aa04-b79e-496a-bb2a-c60446d42f58": {
+          "mountPath": "/var/lib/postgresql/data"
+        }
+      },
+      "variables": {
+        "POSTGRES_DB": {
+          "defaultValue": "plane",
+          "description": "Database name",
+          "isOptional": false
+        },
+        "POSTGRES_USER": {
+          "defaultValue": "plane",
+          "description": "Database user",
+          "isOptional": false
+        },
+        "POSTGRES_PASSWORD": {
+          "defaultValue": "${{secret(32, \"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789\")}}",
+          "description": "Auto-generated database password",
+          "isOptional": false
+        },
+        "PGDATA": {
+          "defaultValue": "/var/lib/postgresql/data/pgdata",
+          "description": "Data subdirectory - keeps Postgres happy on Railway volumes",
+          "isOptional": false
+        },
+        "RAILWAY_DEPLOYMENT_DRAINING_SECONDS": {
+          "defaultValue": "60",
+          "description": "Time for Postgres to shut down cleanly on redeploy",
+          "isOptional": false
+        }
+      }
+    },
+    "8646d626-9dd4-4131-9e8d-8f5cf4084630": {
+      "icon": "https://devicons.railway.app/i/redis.svg",
+      "name": "Redis",
+      "build": {},
+      "deploy": {
+        "startCommand": "/bin/sh -c \"exec docker-entrypoint.sh redis-server --requirepass $REDIS_PASSWORD --save '' --appendonly no\"",
+        "healthcheckPath": null,
+        "restartPolicyType": "ON_FAILURE",
+        "restartPolicyMaxRetries": 10
+      },
+      "source": {
+        "image": "redis:8.10.2-alpine"
+      },
+      "networking": {
+        "serviceDomains": {}
+      },
+      "variables": {
+        "REDIS_PASSWORD": {
+          "defaultValue": "${{secret(32, \"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789\")}}",
+          "description": "Auto-generated Redis password",
+          "isOptional": false
+        }
+      }
+    }
+  },
+  "buckets": {
+    "03d31d4b-7510-4e91-94c9-6586dedd9532": {
+      "name": "Uploads"
+    }
+  }
+}
