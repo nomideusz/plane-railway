@@ -4,5 +4,6 @@
   "description": "Plane project tracker with a Railway bucket and an admin ready on boot",
   "category": "Other",
   "image": "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/plane.svg",
-  "card_desc": "Plane project tracker: issues, cycles, modules and pages for your team, uploads in a Railway bucket, and the admin created on first boot."
+  "card_desc": "Plane project tracker: issues, cycles, modules and pages for your team, uploads in a Railway bucket, and the admin created on first boot.",
+  "id": "c8f5f01c-5b69-480f-b142-32ffc7921ca6"
 }
