@@ -33,7 +33,7 @@ The stack is four services and a bucket: Plane, Postgres, Redis, RabbitMQ and th
 
 - [Plane documentation](https://docs.plane.so/)
 - [Plane self-hosting guide](https://developers.plane.so/self-hosting/overview)
-- [Template source on GitHub](https://github.com/nomideusz/plane-railway)
+- [Template source on GitHub](https://github.com/two-workspaces/plane)
 
 ### Implementation Details
 
