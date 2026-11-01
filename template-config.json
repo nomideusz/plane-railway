@@ -137,13 +137,13 @@
       "name": "RabbitMQ",
       "build": {},
       "deploy": {
-        "startCommand": null,
+        "startCommand": "sh -c 'echo \"deprecated_features.permit.transient_nonexcl_queues = true\" > /etc/rabbitmq/conf.d/90-celery.conf && exec docker-entrypoint.sh rabbitmq-server'",
         "healthcheckPath": null,
         "restartPolicyType": "ON_FAILURE",
         "restartPolicyMaxRetries": 10
       },
       "source": {
-        "image": "rabbitmq:4.1.8-alpine"
+        "image": "rabbitmq:4.4.0-alpine"
       },
       "networking": {
         "serviceDomains": {}
