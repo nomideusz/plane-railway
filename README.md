@@ -26,7 +26,7 @@ The stack is four services and a bucket: Plane, Postgres, Redis, RabbitMQ and th
 
 - Postgres 17 (included, private network only)
 - Redis 8 (included, private network only)
-- RabbitMQ 4.4 (included, private network only)
+- RabbitMQ 4.1 (included, private network only)
 - A Railway bucket for uploads (included)
 
 ### Deployment Dependencies
