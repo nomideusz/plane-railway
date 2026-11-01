@@ -2,13 +2,13 @@
 
 [![Deploy on Railway](https://railway.com/button.svg)](https://railway.com/new/template/plane-community?referralCode=sLjDXb&utm_medium=integration&utm_source=button&utm_campaign=plane-community)
 
-[Plane](https://plane.so/) is the open-source project tracker: work items, cycles (sprints), modules, a wiki with real-time collaborative pages, saved views, intake and analytics, in a fast keyboard-first interface. This template runs Plane Community Edition 1.4.2 on Plane's official all-in-one image with Postgres, Redis, RabbitMQ and a Railway bucket, and creates your admin account on first boot, so Plane's instance setup page is never open to whoever finds the URL first.
+[Plane](https://plane.so/) is the open-source project tracker: work items, cycles (sprints), modules, a wiki with real-time collaborative pages, saved views, intake and analytics, in a fast keyboard-first interface. This template runs Plane Community Edition 1.4.3 on Plane's official all-in-one image with Postgres, Redis, RabbitMQ and a Railway bucket, and creates your admin account on first boot, so Plane's instance setup page is never open to whoever finds the URL first.
 
 ## About Hosting Plane Community
 
 The stack is four services and a bucket: Plane, Postgres, Redis, RabbitMQ and the Uploads bucket.
 
-- **One Plane service, upstream's own image.** The web app, API, background workers, scheduler, real-time editor server and proxy run together in Plane's all-in-one image, pinned to 1.4.2. There is one deploy to watch and one set of logs.
+- **One Plane service, upstream's own image.** The web app, API, background workers, scheduler, real-time editor server and proxy run together in Plane's all-in-one image, pinned to 1.4.3. There is one deploy to watch and one set of logs.
 - **Admin ready, god mode closed.** Plane's instance settings at `/god-mode` belong to whoever opens them first. Here the first boot creates the admin from your email and a generated password, so there is nothing to claim.
 - **Uploads in a Railway bucket.** Attachments, images and covers go straight from the browser to the bundled bucket. There is no MinIO service to size, back up or keep an image for.
 - **Sized for Railway.** Upstream starts one background worker process per CPU the container can see: dozens on Railway's hosts, about 150 MB each. This template runs two, so Plane idles around 0.8 GB instead of several GB.
@@ -26,7 +26,7 @@ The stack is four services and a bucket: Plane, Postgres, Redis, RabbitMQ and th
 
 - Postgres 17 (included, private network only)
 - Redis 8 (included, private network only)
-- RabbitMQ 4.1 (included, private network only)
+- RabbitMQ 4.4 (included, private network only)
 - A Railway bucket for uploads (included)
 
 ### Deployment Dependencies
